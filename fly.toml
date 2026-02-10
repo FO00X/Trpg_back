@@ -1,0 +1,21 @@
+# fly.toml - 适配 FastAPI + Socket.IO，新加坡区域
+app = "trpg-back"  # 必须和你填的 App name 完全一致
+primary_region = "sin"  # 新加坡区域（和 Render 的 Singapore 一致，延迟低）
+
+# HTTP 服务配置（支持 HTTPS + WebSocket）
+[http_service]
+  internal_port = 8080  # 和启动命令的端口一致
+  force_https = true    # 强制 HTTPS（前端连接需用 wss:// 而非 ws://）
+  auto_stop_machines = true  # 闲置自动停止（免费额度）
+  auto_start_machines = true # 访问自动启动
+  min_machines_running = 0   # 最少运行实例数（免费版设 0）
+
+# 环境变量（可在这里加，也可部署后用命令加）
+[env]
+  PORT = "8080"          # 端口必须和 internal_port 一致
+  PYTHONUNBUFFERED = "1" # 强制输出日志（方便调试）
+
+# 构建配置（自动识别 Python 项目）
+[build]
+  builder = "paketobuildpacks/builder:base"
+  buildpacks = ["gcr.io/paketo-buildpacks/python"]

@@ -1,6 +1,10 @@
-fastapi
-uvicorn[standard]
-python-dotenv
-python-jose[cryptography]
-python-multipart
-python-socketio
+# 核心依赖（缺一不可）
+fastapi>=0.104.0
+uvicorn[standard]>=0.24.0  # 带 standard 才支持 WebSocket
+python-socketio>=5.10.0
+python-engineio>=4.8.0     # Socket.IO 底层依赖
+# 其他依赖（根据你的项目补充）
+python-jose[cryptography]>=3.3.0
+passlib[bcrypt]>=1.7.4
+pydantic>=2.0.0
+sqlalchemy>=2.0.0  # 若用了 SQLite 持久化
