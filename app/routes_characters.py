@@ -54,7 +54,7 @@ async def create_character(
     character_id = str(uuid.uuid4())
     updated = _today()
     # 转为可序列化 dict，并写入 id、updated
-    raw = body.model_dump(exclude_none=False)
+    raw = body.model_dump(by_alias=True, exclude_none=False)
     raw["id"] = character_id
     raw["updated"] = updated
     if current_user.username not in _characters_by_user:
@@ -77,7 +77,7 @@ async def update_character(
             content={"ok": False, "message": "角色卡不存在"},
         )
     updated = _today()
-    raw = body.model_dump(exclude_none=False)
+    raw = body.model_dump(by_alias=True, exclude_none=False)
     raw["id"] = character_id
     raw["updated"] = updated
     # 合并已有字段，避免漏掉未传的字段

@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Any, List, Optional
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 
 
 class User(BaseModel):
@@ -48,13 +48,14 @@ class Character(BaseModel):
     gender: Optional[str] = None
     currentResidence: Optional[str] = None
     birthplace: Optional[str] = None
-    str: Optional[int] = None
+    # 属性名用 str_/int_/pow_ 避免与内置冲突；JSON 仍为 "str"/"int"/"pow"（alias）
+    str_: Optional[int] = Field(None, alias="str")
     dex: Optional[int] = None
     siz: Optional[int] = None
     app: Optional[int] = None
     con: Optional[int] = None
-    int: Optional[int] = None
-    pow: Optional[int] = None
+    int_: Optional[int] = Field(None, alias="int")
+    pow_: Optional[int] = Field(None, alias="pow")
     edu: Optional[int] = None
     luc: Optional[int] = None
     hpCurrent: Optional[int] = None
