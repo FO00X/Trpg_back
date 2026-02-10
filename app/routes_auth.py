@@ -47,7 +47,7 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None) -
 async def get_current_user(token: str = Depends(oauth2_scheme)) -> User:
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="Could not validate credentials",
+        detail="未登录或登录已过期",
         headers={"WWW-Authenticate": "Bearer"},
     )
     try:
@@ -101,7 +101,8 @@ async def login(body: LoginRequest, response: Response):
         return {"ok": False, "message": "登录失败，请稍后重试"}
 
 
-@router.get("/me", response_model=User)
+@router.get("/me")
 async def read_current_user(current_user: User = Depends(get_current_user)):
-    return current_user
+    """GET /api/auth/me，返回 { "ok": true, "user": { "username": "string" } }"""
+    return {"ok": True, "user": {"username": current_user.username}}
 
